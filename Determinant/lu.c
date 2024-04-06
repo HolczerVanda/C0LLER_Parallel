@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#define N 3 // Change this to the desired size of the matrix
+#define N 3
 
 void luDecomposition(double A[N][N], double L[N][N], double U[N][N], double *det) {
     int i, j, k;
@@ -16,11 +16,11 @@ void luDecomposition(double A[N][N], double L[N][N], double U[N][N], double *det
         }
     }
 
-    *det = 1.0; // Initialize determinant
+    *det = 1.0;
 
     // LU decomposition
     for (i = 0; i < N; i++) {
-        // Upper triangular matrix
+        
         for (j = i; j < N; j++) {
             U[i][j] = A[i][j];
             for (k = 0; k < i; k++) {
@@ -28,7 +28,6 @@ void luDecomposition(double A[N][N], double L[N][N], double U[N][N], double *det
             }
         }
 
-        // Lower triangular matrix
         for (j = i + 1; j < N; j++) {
             L[j][i] = A[j][i];
             for (k = 0; k < i; k++) {
@@ -37,7 +36,6 @@ void luDecomposition(double A[N][N], double L[N][N], double U[N][N], double *det
             L[j][i] /= U[i][i];
         }
 
-        // Calculate determinant
         *det *= U[i][i];
     }
 }
@@ -47,10 +45,8 @@ int main() {
     double L[N][N], U[N][N], det;
     int i, j;
 
-    // Perform LU decomposition and calculate determinant
     luDecomposition(A, L, U, &det);
 
-    // Printing L matrix
     printf("Lower triangular matrix (L):\n");
     for (i = 0; i < N; i++) {
         for (j = 0; j < N; j++) {
@@ -59,7 +55,6 @@ int main() {
         printf("\n");
     }
 
-    // Printing U matrix
     printf("\nUpper triangular matrix (U):\n");
     for (i = 0; i < N; i++) {
         for (j = 0; j < N; j++) {
@@ -68,7 +63,6 @@ int main() {
         printf("\n");
     }
 
-    // Printing determinant
     printf("\nDeterminant of the matrix: %f\n", det);
 
     return 0;
