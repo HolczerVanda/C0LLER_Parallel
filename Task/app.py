@@ -1,11 +1,14 @@
-N = 3
+import time
+import random
+import matplotlib.pyplot as plt
 
 def luDecomposition(A):
+    N = len(A)
     L = [[0] * N for _ in range(N)]
     U = [[0] * N for _ in range(N)]
-    det = 1.0
 
     for i in range(N):
+        L[i][i] = 1
 
         for j in range(i, N):
             U[i][j] = A[i][j]
@@ -18,22 +21,27 @@ def luDecomposition(A):
                 L[j][i] -= L[j][k] * U[k][i]
             L[j][i] /= U[i][i]
 
-        det *= U[i][i]
-
-    return L, U, det
-
+    return L, U
 
 if __name__ == "__main__":
-    A = [[13, -41, 10], [0, -4, 1], [3, 11, 9]]
+    execution_times = []
+    sizes = range(100, 501, 50)
 
-    L, U, det = luDecomposition(A)
+    for N in sizes:
+        A = [[random.randint(1, 10) for _ in range(N)] for _ in range(N)]
 
-    print("Lower triangular matrix (L):")
-    for row in L:
-        print("\t".join(f"{val:.2f}" for val in row))
+        start_time = time.time()
+        L, U = luDecomposition(A)
+        end_time = time.time()
 
-    print("\nUpper triangular matrix (U):")
-    for row in U:
-        print("\t".join(f"{val:.2f}" for val in row))
+        execution_time_seconds = end_time - start_time
+        execution_times.append(execution_time_seconds)
 
-    print("\nDeterminant of the matrix:", det)
+        print(f"N = {N}, Execution time: {execution_time_seconds:.6f} seconds")
+
+    plt.plot(sizes, execution_times, marker='o')
+    plt.title('Execution Time vs. Matrix Size')
+    plt.xlabel('Matrix Size (N)')
+    plt.ylabel('Execution Time (seconds)')
+    plt.grid(True)
+    plt.show()
