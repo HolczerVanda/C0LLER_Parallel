@@ -53,9 +53,6 @@ if __name__ == "__main__":
 
         print(f"N = {N}, Execution time: {execution_time_seconds:.6f} seconds")
 
-        with open('results.txt', 'a') as results_file:
-            results_file.write(f"{N};{execution_time_seconds}\n")
-
     plt.plot(range(600, 2001, 200), execution_times, marker='o')
     plt.title('Execution Time vs. Matrix Size')
     plt.xlabel('Matrix Size')
