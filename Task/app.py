@@ -19,9 +19,12 @@ def luDecomposition(A):
             L[j][i] = A[j][i]
             for k in range(i):
                 L[j][i] -= L[j][k] * U[k][i]
-            L[j][i] /= U[i][i]
-
+            if U[i][i] == 0:
+                raise ValueError("A zero pivot encountered. LU decomposition cannot proceed.")
+            else:
+                L[j][i] /= U[i][i]
     return L, U
+
 
 if __name__ == "__main__":
     execution_times = []

@@ -2,6 +2,7 @@ import numpy as np
 import pyopencl as cl
 import random
 import time
+import math
 import matplotlib.pyplot as plt
 
 def luDecomposition(A, queue, N):
@@ -28,35 +29,44 @@ def luDecomposition(A, queue, N):
 
     return L, U, event
 
-def calculate_determinant(U, N):
-    det = 1.0
-    for i in range(N):
-        det *= U[i, i]
-    return det
+def generate_random_matrix(N):
+    return np.array([[random.randint(1, 10) for _ in range(N)] for _ in range(N)], dtype=np.float64)
+
+def check_for_nan_or_zero(L):
+    for i in range(len(L)):
+        for j in range(len(L)):
+            if math.isnan(L[i][j]):
+                return True
+    return False
 
 if __name__ == "__main__":
     execution_times = []
-    for N in range(600, 2001, 200):
-        A = np.array([[random.randint(1, 10) for _ in range(N)] for _ in range(N)], dtype=np.float64)
+    sizes = range(500, 1001, 100)
+    for N in sizes:
+        while True:
+            A = generate_random_matrix(N)
 
-        platform = cl.get_platforms()[0]
-        device = platform.get_devices()[0]
-        ctx = cl.Context([device])
-        queue = cl.CommandQueue(ctx, properties=cl.command_queue_properties.PROFILING_ENABLE)
+            platform = cl.get_platforms()[0]
+            device = platform.get_devices()[0]
+            ctx = cl.Context([device])
+            queue = cl.CommandQueue(ctx, properties=cl.command_queue_properties.PROFILING_ENABLE)
 
-        start_time = time.time()
-        L, U, event = luDecomposition(A.flatten(), queue, N)
-        end_time = time.time()
+            start_time = time.time()
+            L, U, event = luDecomposition(A.flatten(), queue, N)
+            end_time = time.time()
 
-        execution_time_seconds = end_time - start_time
-        execution_times.append(execution_time_seconds)
+            execution_time_seconds = end_time - start_time
 
-        print(f"N = {N}, Execution time: {execution_time_seconds:.6f} seconds")
+            if not check_for_nan_or_zero(L):
+                execution_times.append(execution_time_seconds)
+                print(f"N = {N}, Execution time: {execution_time_seconds:.6f} seconds")
 
-        with open('results.txt', 'a') as results_file:
-            results_file.write(f"{N};{execution_time_seconds}\n")
+                with open('results.txt', 'a') as results_file:
+                    results_file.write(f"{N};{execution_time_seconds}\n")
 
-    plt.plot(range(600, 2001, 200), execution_times, marker='o')
+                break
+
+    plt.plot(sizes, execution_times, marker='o')
     plt.title('Execution Time vs. Matrix Size')
     plt.xlabel('Matrix Size')
     plt.ylabel('Execution Time (seconds)')
