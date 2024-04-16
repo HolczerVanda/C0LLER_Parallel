@@ -10,13 +10,13 @@ A féléves beadandó feladatom témája különböző méretű mátrixok LU fel
 
 <u>**Közös részek**</u>
  A beadandó alapvetően két fajta kóddal rendelkezik, az egyik a szekvenciális módon működő Python kód, a másik pedig a PyOpenCL program. Ebben a részben összefoglalom azokat a közös elemeket, amelyek mindkét kódban megtalálhatók:
- - ***Véletlenszámokkal feltöltött mátrix generálása***:
+ - **Véletlenszámokkal feltöltött mátrix generálása**:
 	 - Mindkét kód generál egy *N*×*N* méretű mátrixot, ahol *N* a mátrix dimenzió száma.
 	 - A mátrix elemei véletlenszerűen generált egész számok 1-től 10-ig.
- - ***LU felbontás algoritmusa***:
+ - **LU felbontás algoritmusa**:
 	 -   Mindkét kód implementálja az *LU felbontás* algoritmusát, ami egy négyzetes mátrixot, például *A*, felbont két háromszögmátrixra, egy alsó háromszögmátrixra (L) és egy felső háromszögmátrixra (U).
 	-   Az algoritmus lépései közé tartozik a *Gauss-elimináció* és az *alsó- és felső háromszögmátrixok kiszámítása*.
-- ***Grafikon rajzolása***:
+- **Grafikon rajzolása**:
 	-   Mindkét kód a `matplotlib` könyvtárat használja a grafikonok rajzolásához.
 	-   A grafikonokon a futási idő (Execution Time) jelenik meg a Mátrix méretének (Matrix Size) függvényében.
 	- Az X tengelyen a dimenziószám (N), az Y tengelyen pedig a futási idő (seconds) jelenik meg másodpercekben.
@@ -37,6 +37,7 @@ A féléves beadandó feladatom témája különböző méretű mátrixok LU fel
     -   Egyszerűbben megvalósítható, de kevésbé hatékony nagyobb méretű mátrixok esetén, ezért az input méretek 100-tól 500-ig vannak megadva, 50-es lépésekkel.
 - **Grafikon**:
 ![image](https://github.com/HolczerVanda/C0LLER_Parallel/assets/90444495/a2009b07-86e3-42a8-8120-7df361d4479d)
+
 <u>**PyOpenCL változat:**</u>
 - **Környezet és folyamatok:** 
     -   A kód `PyOpenCL`-t használ a párhuzamosított számításokhoz.

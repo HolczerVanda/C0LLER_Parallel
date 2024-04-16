@@ -61,11 +61,6 @@ if __name__ == "__main__":
                 execution_times.append(execution_time_seconds)
                 print(f"N = {N}, Execution time: {execution_time_seconds:.6f} seconds")
 
-                with open('results.txt', 'a') as results_file:
-                    results_file.write(f"{N};{execution_time_seconds}\n")
-
-                break
-
     plt.plot(sizes, execution_times, marker='o')
     plt.title('Execution Time vs. Matrix Size')
     plt.xlabel('Matrix Size')
